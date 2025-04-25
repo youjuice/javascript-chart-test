@@ -50,8 +50,6 @@ window.UIModule = (function() {
     function clearInputs() {
         document.getElementById('new-id').value = '';
         document.getElementById('new-value').value = '';
-        document.getElementById('new-id').classList.remove('input-error');
-        document.getElementById('new-value').classList.remove('input-error');
     }
 
     return {
