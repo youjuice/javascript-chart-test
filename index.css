@@ -59,6 +59,19 @@ th {
     font-weight: bold;
 }
 
+/* 테이블 열 너비 조정 */
+#data-table th:first-child, #data-table td:first-child {
+    width: 20%; /* ID 열 너비 */
+}
+
+#data-table th:nth-child(2), #data-table td:nth-child(2) {
+    width: 60%; /* VALUE 열 너비 */
+}
+
+#data-table th:last-child, #data-table td:last-child {
+    width: 20%; /* 삭제 열 너비 */
+}
+
 .edit-value {
     width: 80px;
     padding: 5px;
