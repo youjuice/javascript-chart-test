@@ -4,13 +4,20 @@
 
 window.DataModule = (function() {
     // 샘플 데이터
-    let dataStore = [
+    let sampleData = [
         { id: 0, value: 75 },
         { id: 1, value: 20 },
         { id: 2, value: 80 },
         { id: 3, value: 100 },
         { id: 4, value: 70 }
     ];
+
+    let dataStore = [...sampleData];
+
+    // 샘플 데이터 가져오는 함수
+    function getSampleData() {
+        return [...sampleData];
+    }
 
     // 모든 데이터를 반환하는 함수
     function getAllData() {
@@ -49,26 +56,52 @@ window.DataModule = (function() {
         return dataStore.length !== initialLength;
     }
 
+    // JSON 데이터 유효성 검사 함수
+    function validateJsonData(data) {
+        // 형식 검사
+        if (!Array.isArray(data)) {
+            return { isValid: false, message: '데이터는 배열 형식이어야 합니다.' };
+        }
+
+        // 각 항목의 속성 검사
+        for (let i = 0; i < data.length; i++) {
+            const item = data[i];
+            if (!item.hasOwnProperty('id') || !item.hasOwnProperty('value')) {
+                return {
+                    isValid: false,
+                    message: `${i + 1}번째 항목에 id 또는 value 속성이 없습니다.`
+                };
+            }
+        }
+
+        // ID 중복 검사
+        const idMap = {};
+        for (let i = 0; i < data.length; i++) {
+            const id = data[i].id;
+            if (idMap[id] !== undefined) {
+                return {
+                    isValid: false,
+                    message: `중복된 ID(${id})가 있습니다: ${idMap[id] + 1}번째와 ${i + 1}번째 항목`
+                };
+            }
+            idMap[id] = i;
+        }
+
+        return { isValid: true, message: `유효한 JSON 형식 (${data.length}개 항목)` };
+    }
+
     // JSON 파싱 함수
     function setDataFromJson(jsonString) {
         try {
             const parsedData = JSON.parse(jsonString);
+            const validation = validateJsonData(parsedData);
 
-            // 유효성 검사
-            if (!Array.isArray(parsedData)) {
-                console.error('데이터는 배열 형식이어야 합니다.');
+            if (!validation.isValid) {
+                console.error(validation.message);
                 return false;
             }
 
-            // 각 항목 검사
-            for (const item of parsedData) {
-                if (!item.hasOwnProperty('id') || !item.hasOwnProperty('value')) {
-                    console.error('각 항목은 id와 value 속성을 가져야 합니다.');
-                    return false;
-                }
-            }
-
-            // 데이터 업데이트
+            // 검증 통과 시 데이터 업데이트
             dataStore = parsedData;
             return true;
         } catch (error) {
@@ -78,10 +111,12 @@ window.DataModule = (function() {
     }
 
     return {
+        getSampleData,
         getAllData,
         addData,
         updateData,
         deleteData,
+        validateJsonData,
         setDataFromJson
     };
 })();

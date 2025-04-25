@@ -5,6 +5,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     refreshAllComponents();
     setupEventListeners();
+
+    enhanceJsonEditor();
+    setupTemplateButtons();
 });
 
 // 모든 컴포넌트 새로고침 함수
@@ -39,6 +42,7 @@ function setupEventListeners() {
             if (confirm(`ID: ${id} 항목을 삭제하시겠습니까?`)) {
                 DataModule.deleteData(id);
                 refreshAllComponents();
+                alert(`ID: ${id} 항목이 삭제되었습니다.`);
             }
         }
     });
@@ -71,11 +75,22 @@ function setupEventListeners() {
 
     // JSON 편집 적용
     document.getElementById('apply-json').addEventListener('click', () => {
-        if (DataModule.setDataFromJson(UIModule.getJsonEditorContent())) {
-            refreshAllComponents();
-            alert('JSON 데이터가 성공적으로 적용되었습니다.');
-        } else {
-            alert('JSON 형식이 올바르지 않습니다.');
+        try {
+            const content = UIModule.getJsonEditorContent();
+            const parsed = JSON.parse(content);
+            const validation = DataModule.validateJsonData(parsed);
+
+            if (!validation.isValid) {
+                alert(validation.message);
+                return;
+            }
+
+            if (DataModule.setDataFromJson(content)) {
+                refreshAllComponents();
+                alert('JSON 데이터가 성공적으로 적용되었습니다.');
+            }
+        } catch (error) {
+            alert('유효하지 않은 JSON 형식입니다.');
         }
     });
 }
