@@ -29,6 +29,7 @@ function setupEventListeners() {
             }
         });
         refreshAllComponents();
+        alert('데이터가 성공적으로 수정되었습니다.');
     });
 
     // 데이터 삭제
@@ -59,6 +60,7 @@ function setupEventListeners() {
         // 데이터 추가
         if (DataModule.addData(newId, newValue)) {
             refreshAllComponents();
+            alert(`ID: ${newId} 항목이 추가되었습니다.`);
         } else {
             alert('중복된 ID입니다.');
         }
@@ -71,6 +73,7 @@ function setupEventListeners() {
     document.getElementById('apply-json').addEventListener('click', () => {
         if (DataModule.setDataFromJson(UIModule.getJsonEditorContent())) {
             refreshAllComponents();
+            alert('JSON 데이터가 성공적으로 적용되었습니다.');
         } else {
             alert('JSON 형식이 올바르지 않습니다.');
         }
