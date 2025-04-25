@@ -28,6 +28,13 @@ window.DataModule = (function() {
     function addData(id, value) {
         // ID 중복 검사
         if (dataStore.some(item => item.id === parseInt(id))) {
+            alert('중복된 ID입니다.');
+            return false;
+        }
+
+        // 음수 검사
+        if (parseInt(value) < 0) {
+            alert('VALUE는 0 이상의 값만 입력 가능합니다.');
             return false;
         }
 
@@ -41,6 +48,12 @@ window.DataModule = (function() {
 
     // 특정 ID의 데이터 값을 업데이트하는 함수
     function updateData(id, value) {
+        // 음수 검사
+        if (parseInt(value) < 0) {
+            alert('VALUE는 0 이상의 값만 입력 가능합니다.');
+            return false;
+        }
+
         const index = dataStore.findIndex(item => item.id === parseInt(id));
         if (index !== -1) {
             dataStore[index].value = parseInt(value);
@@ -70,6 +83,17 @@ window.DataModule = (function() {
                 return {
                     isValid: false,
                     message: `${i + 1}번째 항목에 id 또는 value 속성이 없습니다.`
+                };
+            }
+        }
+
+        // 음수 검사
+        for (let i = 0; i < data.length; i++) {
+            const value = data[i].value;
+            if (parseInt(value) < 0) {
+                return {
+                    isValid: false,
+                    message: `${i + 1}번째 항목의 값(${value})이 음수입니다. 0 이상의 값만 허용됩니다.`
                 };
             }
         }

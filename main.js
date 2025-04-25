@@ -23,16 +23,24 @@ function setupEventListeners() {
     // 값 편집 적용
     document.getElementById('apply-edit').addEventListener('click', () => {
         const editInputs = document.querySelectorAll('.edit-value');
+        let updateSuccess = true;
 
         editInputs.forEach(input => {
             const id = parseInt(input.getAttribute('data-id'));
             const value = parseInt(input.value);
             if (!isNaN(value)) {
-                DataModule.updateData(id, value);
+                if (!DataModule.updateData(id, value)) {
+                    updateSuccess = false;
+                }
             }
         });
+
+        // 성공 시 새로운 값으로, 실패 시 원래 값으로 돌아감
         refreshAllComponents();
-        alert('데이터가 성공적으로 수정되었습니다.');
+
+        if (updateSuccess) {
+            alert('데이터가 성공적으로 수정되었습니다.');
+        }
     });
 
     // 데이터 삭제
@@ -65,12 +73,8 @@ function setupEventListeners() {
         if (DataModule.addData(newId, newValue)) {
             refreshAllComponents();
             alert(`ID: ${newId} 항목이 추가되었습니다.`);
-        } else {
-            alert('중복된 ID입니다.');
+            UIModule.clearInputs();
         }
-
-        // 입력 필드 초기화
-        UIModule.clearInputs();
     });
 
     // JSON 편집 적용
