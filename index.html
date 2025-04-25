@@ -1,10 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title></title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>아이엠파인 SD팀 지원자 박유주</h1>
+        </header>
 
+        <div class="content">
+            <section class="graph-section">
+                <h2>1. 그래프</h2>
+                <div class="chart-container">
+                    <canvas id="data-chart"></canvas>
+                </div>
+            </section>
+
+            <section class="edit-section">
+                <h2>2. 값 편집</h2>
+                <div class="table-container">
+                    <table id="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>VALUE</th>
+                                <th>액션</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <!-- 데이터 동적 추가 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="button-container">
+                    <button id="apply-edit" class="btn primary">Apply</button>
+                </div>
+            </section>
+
+            <section class="add-section">
+                <h2>3. 값 추가</h2>
+                <div class="add-form">
+                    <div class="form-group">
+                        <label for="new-id"></label>
+                        <input type="number" id="new-id" placeholder="ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="new-value"></label>
+                        <input type="number" id="new-value" placeholder="VALUE">
+                    </div>
+                    <div class="button-container">
+                        <button id="add-value">Add</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="advanced-edit-section">
+                <h2>4. 값 고급 편집</h2>
+                <div class="json-editor">
+                    <label for="json-editor"></label>
+                    <textarea id="json-editor" rows="8"></textarea>
+                </div>
+                <div class="button-container">
+                    <button id="apply-json" class="btn primary">Apply</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="chart.js"></script>
+    <script src="ui.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
