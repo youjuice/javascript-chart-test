@@ -99,6 +99,7 @@ function setupTemplateButtons() {
             // 샘플 데이터 가져오기
             const sampleData = DataModule.getSampleData();
             jsonEditor.value = JSON.stringify(sampleData, null, 2);
+            alert('JSON 에디터가 초기 템플릿으로 복원되었습니다. \n적용하려면 Apply 버튼을 클릭하세요.');
         }
 
         // 상태 업데이트
